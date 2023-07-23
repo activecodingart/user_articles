@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_articles/app/core/enums.dart';
@@ -24,7 +25,7 @@ class ArticlesPage extends StatelessWidget {
       body: BlocProvider<ArticlesCubit>(
         create: (context) => ArticlesCubit(
           articlesRepository: ArticlesRepository(
-            remoteDataSource: ArticlesRemoteDioDataSource(),
+            remoteDataSource: ArticlesRemoteRetrofitDataSource(Dio()),
           ),
         )..fetchData(
             authorId: author.id,
@@ -69,7 +70,7 @@ class ArticlesPage extends StatelessWidget {
                         child: Text(
                           state.errorMessage ?? 'Unknown error',
                           style: TextStyle(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                       );
